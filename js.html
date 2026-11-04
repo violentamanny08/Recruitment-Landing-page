@@ -1,0 +1,101 @@
+<script>
+  (function () {
+  var t0 = Date.now(), MIN = 1800; // pinakamaikling tagal ng loading, sa milliseconds
+  var l = document.getElementById('hp-loader'), li = document.getElementById('hp-logo'), lg = document.querySelector('.logo');
+  if (li && lg) { li.src = lg.src; li.style.display = 'block'; }
+  function done() {
+    if (!l) return;
+    setTimeout(function () {
+      l.classList.add('hide');
+      setTimeout(function () { if (l.parentNode) l.parentNode.removeChild(l); }, 700);
+    }, Math.max(0, MIN - (Date.now() - t0)));
+    l = null;
+  }
+  if (document.readyState === 'complete') done();
+  else window.addEventListener('load', done);
+  setTimeout(done, 6000);
+})();
+var BK=(typeof BOOKING!=='undefined'&&BOOKING)||'',SRCV=(typeof SRC!=='undefined'&&SRC)||'direct',LANG='en',i=0,pick=[],scr='q',fv={},fn='',dlg=document.getElementById('dlg'),b=document.getElementById('body');
+function P(en,tl){return{en:en,tl:tl}}
+function O(en,tl,s,tip){return{t:P(en,tl),s:s,tip:tip}}
+var Q=[
+{l:'PRC license',q:P('Do you have a PRC real estate license?','May PRC real estate license ka ba?'),o:[
+O('Yes, I am licensed','Oo, lisensyado ako',12),O('I am studying or applying for it','Nag-aaral o nag-a-apply ako nito',8),O('Not yet','Wala pa',4,'license')]},
+{l:'Experience',q:P('Have you worked in sales, customer service, or another client-facing role?','Nakapagtrabaho ka na ba sa sales, customer service, o ibang trabahong may kliyente?'),o:[
+O('Yes, 2 years or more','Oo, 2 taon o higit pa',10),O('Yes, less than 2 years','Oo, wala pang 2 taon',7),O('No experience yet','Wala pang experience',3)]},
+{l:'Follow-up habit',q:P('A buyer you met goes quiet after the first chat. What do you do?','May nakilala kang buyer na hindi na sumasagot pagkatapos ng unang usap. Ano ang gagawin mo?'),o:[
+O('Message them the next day with a useful listing or update','Mag-me-message ako kinabukasan na may kapaki-pakinabang na listing o update',15),O('Try once more, then move on','Susubukan ko ulit nang isang beses, tapos lilipat na ako',8),O('Wait for them to reach out','Hihintayin kong sila ang mag-reach out',3,'followup')]},
+{l:'Weekly hours',q:P('How many hours per week can you commit to real estate?','Ilang oras kada linggo ang maibibigay mo sa real estate?'),o:[
+O('Full-time (40+ hours)','Full-time (40+ oras)',15),O('Part-time (15 to 39 hours)','Part-time (15 hanggang 39 oras)',10),O('Fewer than 15 hours','Wala pang 15 oras',3,'hours')]},
+{l:'Commission',q:P('Real estate income is commission-based. How do you feel about that?','Ang kita sa real estate ay batay sa komisyon. Ano ang pakiramdam mo rito?'),o:[
+O('Comfortable. I can cover my needs while I build my sales','Komportable ako. Kaya kong tustusan ang pangangailangan ko habang bumubuo ng benta',15),O('Okay with it, but I need income soon','Okay ako rito, pero kailangan ko ng kita agad',9),O('I need a fixed salary','Kailangan ko ng fixed na sahod',2,'income')]},
+{l:'Marketing',q:P('Are you ready to use your phone and social media to market listings and follow up leads?','Handa ka bang gumamit ng phone at social media para i-market ang listings at i-follow up ang leads?'),o:[
+O('Yes, I already do this','Oo, ginagawa ko na ito',12),O('Yes, I am willing to learn','Oo, handa akong matuto',8),O('No','Hindi',2,'marketing')]},
+{l:'Resilience',q:P('It is month three and you have not closed a deal yet. What do you do?','Pangatlong buwan mo na at wala ka pang na-close na deal. Ano ang gagawin mo?'),o:[
+O('Review what is not working, ask my mentor, and follow up more','Susuriin ko kung ano ang hindi gumagana, hihingi ng payo sa mentor, at mas dadamihan ang follow-up',13),O('Keep going the same way and hope it improves','Itutuloy ko ang ginagawa ko at aasahan kong bubuti',7),O('Look for another job','Maghahanap na ako ng ibang trabaho',2,'resilience')]},
+{l:'Start date',q:P('When can you start?','Kailan ka puwedeng magsimula?'),o:[
+O('Within 2 weeks','Sa loob ng 2 linggo',8),O('Within a month','Sa loob ng isang buwan',5),O('More than a month from now','Mahigit isang buwan mula ngayon',2)]}];
+var TIP={license:P('Tip: ask us about the PRC exam. We can guide you while you train.','Tip: magtanong sa amin tungkol sa PRC exam. Gagabayan ka namin habang nagte-training.'),
+followup:P('Tip: quick, useful follow-ups win clients. We teach scripts that work.','Tip: ang mabilis at kapaki-pakinabang na follow-up ang nagpapanalo ng kliyente. Tuturuan ka namin ng mga script na epektibo.'),
+hours:P('Tip: leads go cold fast. Aim for at least 15 hours a week.','Tip: mabilis lumamig ang leads. Subukang magbigay ng hindi bababa sa 15 oras kada linggo.'),
+income:P('Tip: income is commission-based. Plan a few months of savings or side income first.','Tip: batay sa komisyon ang kita. Mag-ipon o magkaroon muna ng sideline para sa unang ilang buwan.'),
+marketing:P('Tip: we will teach you to market listings on Facebook and TikTok.','Tip: tuturuan ka naming mag-market ng listings sa Facebook at TikTok.'),
+resilience:P('Tip: first deals take time. Our mentors help you adjust your approach.','Tip: matagal ang unang mga deal. Tutulungan ka ng mga mentor namin na i-adjust ang diskarte mo.')};
+var T={back:P('Back','Bumalik'),last:P('Last step','Huling hakbang'),res:P('Result','Resulta'),ft:P('Where can we reach you?','Saan ka namin makokontak?'),
+fn:P('Full name','Buong pangalan'),fm:P('Mobile number','Mobile number'),fe:P('Email','Email'),fc:P('City','Lungsod'),
+pv:P('By submitting, you agree that Home Partners PH may use your name, mobile number, email, city, and answers to review your application and contact you, in line with the Data Privacy Act of 2012 (RA 10173). You may ask us to access, correct, or delete your information at any time.','Sa pag-submit, pumapayag ka na maaaring gamitin ng Home Partners PH ang iyong pangalan, mobile number, email, city, at mga sagot para suriin ang aplikasyon mo at makipag-ugnayan sa iyo, alinsunod sa Data Privacy Act of 2012 (RA 10173). Maaari kang humiling anumang oras na i-access, itama, o burahin ang iyong impormasyon.'),
+ag:P('I have read and agree to the privacy notice.','Nabasa ko at sumasang-ayon ako sa privacy notice.'),go:P('See my result','Tingnan ang resulta ko'),
+e1:P('Please fill in all four fields.','Pakisagutan ang lahat ng apat na field.'),e2:P('Enter a valid email address.','Maglagay ng tamang email address.'),e3:P('Please agree to the privacy notice to continue.','Pakisang-ayunan ang privacy notice para magpatuloy.'),
+call:P('Call 0995 358 1519','Tawagan ang 0995 358 1519'),close:P('Close','Isara'),book:P('Book a call','Mag-book ng tawag'),pick:P('Pick a time for your call','Pumili ng oras para sa tawag'),ld:P('Loading available times...','Kinukuha ang mga available na oras...'),ns:P('No open times right now. Please call us instead.','Walang bukas na oras ngayon. Pakitawagan na lang kami.'),tk:P('That time was just taken. Please pick another.','Nakuha na ang oras na iyon. Pumili ng iba.'),bd:P('Your call is booked!','Naka-book na ang tawag mo!'),bm:P('We will call you on ','Tatawagan ka namin sa '),bi:P('A calendar invite was sent to your email.','May calendar invite na ipinadala sa email mo.'),er:P('Something went wrong. Please call us instead.','May nangyaring mali. Pakitawagan na lang kami.'),who:P('Who would you like to talk to?','Sino ang gusto mong makausap?'),any:P('Anyone available','Kahit sino ang available'),tz:P('Times are in Philippine Time.','Oras sa Pilipinas ang gamit.'),pts:P(' / 100 points',' / 100 puntos'),
+t1:P('You look like a strong fit, ','Mukhang bagay na bagay ka sa team, '),t2:P('You could be a fit, ','Maaari kang bumagay sa team, '),t3:P('Thanks for your time, ','Salamat sa oras mo, '),
+m1:P('Manny and Annalyn will contact you to schedule a call.','Kokontakin ka nina Manny at Annalyn para mag-schedule ng tawag.'),
+m2:P('We would like to get to know you first. Expect a message from the team soon.','Gusto ka muna naming makilala. Asahan ang mensahe mula sa team sa lalong madaling panahon.'),
+m3:P('Right now the time, income runway, or online selling habits you shared are a gap for this role. You are welcome to apply again when that changes.','Sa ngayon, may agwat pa sa oras, pagkukunan ng kita, o paggamit ng social media na sinabi mo para sa role na ito. Malugod kang mag-apply ulit kapag nagbago iyon.')};
+function g(o){return o[LANG]}
+function bar(n,t){document.getElementById('pb').style.width=n+'%';document.getElementById('cnt').textContent=t}
+var lg=document.createElement('button');lg.type='button';lg.style.cssText='background:none;border:1.5px solid var(--ink);color:var(--ink);border-radius:999px;padding:4px 12px;font:600 13px Figtree,sans-serif;cursor:pointer';
+document.getElementById('cnt').insertAdjacentElement('afterend',lg);
+lg.onclick=function(){if(scr==='f')saveF();LANG=LANG==='en'?'tl':'en';render()};
+function saveF(){['n','p','e','c'].forEach(function(k){var x=document.getElementById(k);if(x)fv[k]=x.value})}
+function render(){lg.innerHTML=LANG==='en'?'<b>EN</b> | TL':'EN | <b>TL</b>';scr==='q'?show():scr==='f'?form():scr==='b'?drawSlots():result()}
+function open(e){e&&e.preventDefault();i=0;pick=[];fv={};scr='q';render();dlg.showModal()}
+document.querySelectorAll('[data-quiz]').forEach(function(a){a.addEventListener('click',open)});
+document.getElementById('cls').onclick=function(){dlg.close()};
+function show(){var q=Q[i];bar((i+1)/(Q.length+1)*100,(LANG==='en'?'Question ':'Tanong ')+(i+1)+(LANG==='en'?' of ':' ng ')+Q.length);
+b.innerHTML='<h2 style="font-size:26px">'+g(q.q)+'</h2>'+q.o.map(function(o,k){return '<button class="opt" data-k="'+k+'">'+g(o.t)+'</button>'}).join('')+(i?'<button class="btn line" id="bk" style="margin-top:8px">'+g(T.back)+'</button>':'');
+b.querySelectorAll('.opt').forEach(function(x){x.onclick=function(){pick[i]=q.o[+x.dataset.k];i++;if(i<Q.length)show();else{scr='f';render()}}});
+var bk=document.getElementById('bk');if(bk)bk.onclick=function(){i--;show()}}
+function form(){bar(100,g(T.last));
+b.innerHTML='<h2 style="font-size:26px">'+g(T.ft)+'</h2><div class="fg"><div><label for="n">'+g(T.fn)+'</label><input type="text" id="n" autocomplete="name"></div><div><label for="p">'+g(T.fm)+'</label><input type="tel" id="p" autocomplete="tel"></div><div><label for="e">'+g(T.fe)+'</label><input type="email" id="e" autocomplete="email"></div><div><label for="c">'+g(T.fc)+'</label><input type="text" id="c" autocomplete="address-level2"></div></div><p class="small">'+g(T.pv)+'</p><label style="display:flex;gap:8px;font-weight:600"><input type="checkbox" id="ok"> '+g(T.ag)+'</label><div class="err" id="er"></div><div style="display:flex;justify-content:space-between;margin-top:8px"><button class="btn line" id="bk">'+g(T.back)+'</button><button class="btn" id="go">'+g(T.go)+'</button></div>';
+['n','p','e','c'].forEach(function(k){if(fv[k])document.getElementById(k).value=fv[k]});
+document.getElementById('bk').onclick=function(){saveF();i=Q.length-1;scr='q';render()};
+document.getElementById('go').onclick=function(){saveF();var er=document.getElementById('er');
+if(!fv.n.trim()||!fv.p.trim()||!fv.e.trim()||!fv.c.trim()){er.textContent=g(T.e1);return}
+if(!/^\S+@\S+\.\S+$/.test(fv.e.trim())){er.textContent=g(T.e2);return}
+if(!document.getElementById('ok').checked){er.textContent=g(T.e3);return}
+var sc=score();
+try{google.script.run.withFailureHandler(function(){}).submitLead({source:SRCV,name:fv.n.trim(),phone:fv.p.trim(),email:fv.e.trim(),city:fv.c.trim(),score:sc,language:LANG,answers:pick.map(function(o){return o.t.en})})}catch(x){}
+fn=fv.n.trim().split(' ')[0];scr='r';render()}}
+function score(){return pick.reduce(function(a,o){return a+o.s},0)}
+function result(){var s=score(),t=s>=75?T.t1:s>=50?T.t2:T.t3,m=s>=75?T.m1:s>=50?T.m2:T.m3;bar(100,g(T.res));
+var tips=pick.filter(function(o){return o.tip}).slice(0,2).map(function(o){return '<li style="margin:6px 0">'+g(TIP[o.tip])+'</li>'}).join('');
+b.innerHTML='<h2 style="font-size:26px">'+g(t)+fn+'.</h2><p style="font:800 44px \'Bricolage Grotesque\',sans-serif;margin:8px 0">'+s+'<span style="font-size:18px;color:var(--mute)">'+g(T.pts)+'</span></p><p>'+g(m)+'</p>'+(tips?'<ul style="padding-left:20px;color:var(--mute);font-size:15px">'+tips+'</ul>':'')+'<p>'+(BK?'<a class="btn" target="_blank" rel="noopener" href="'+BK+'">'+g(T.book)+'</a> ':'<button class="btn" id="bkn">'+g(T.pick)+'</button> ')+'<a class="btn line" target="_top" href="tel:+639953581519">'+g(T.call)+'</a></p><button class="btn line" onclick="document.getElementById(\'dlg\').close()">'+g(T.close)+'</button>';var bn=document.getElementById('bkn');if(bn)bn.onclick=showBooking}
+var SL=[],SD=0;
+function fmtD(k){return new Date(k+'T12:00:00+08:00').toLocaleDateString(LANG==='tl'?'fil-PH':'en-PH',{weekday:'short',month:'short',day:'numeric',timeZone:'Asia/Manila'})}
+function fmtT(iso){return new Date(iso).toLocaleTimeString('en-PH',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Manila'})}
+function callBtn(){return '<p><a class="btn" target="_top" href="tel:+639953581519">'+g(T.call)+'</a></p>'}
+var WHO='any';
+function showBooking(){scr='b';bar(100,g(T.res));b.innerHTML='<p>'+g(T.ld)+'</p>';
+google.script.run.withSuccessHandler(function(ps){ps=ps||[];if(ps.length>1)chooseWho(ps);else{WHO=ps.length?ps[0].id:'any';loadSlots()}}).withFailureHandler(function(){b.innerHTML='<p>'+g(T.er)+'</p>'+callBtn()}).getPeople()}
+function chooseWho(ps){b.innerHTML='<h2 style="font-size:24px">'+g(T.who)+'</h2>'+ps.map(function(p){return '<button class="opt" data-w="'+p.id+'">'+p.name+'</button>'}).join('')+'<button class="opt" data-w="any">'+g(T.any)+'</button>';
+b.querySelectorAll('[data-w]').forEach(function(x){x.onclick=function(){WHO=x.dataset.w;loadSlots()}})}
+function loadSlots(){b.innerHTML='<p>'+g(T.ld)+'</p>';google.script.run.withSuccessHandler(function(r){SL=r||[];SD=0;drawSlots()}).withFailureHandler(function(){b.innerHTML='<p>'+g(T.er)+'</p>'+callBtn()}).getSlots(WHO)}
+function drawSlots(msg){if(!SL.length){b.innerHTML='<p>'+g(T.ns)+'</p>'+callBtn();return}
+var d=SL[SD];
+b.innerHTML='<h2 style="font-size:24px">'+g(T.pick)+'</h2>'+(msg?'<p class="err">'+msg+'</p>':'')+'<div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0">'+SL.map(function(x,k){return '<button class="btn'+(k===SD?'':' line')+'" data-d="'+k+'" style="padding:8px 14px;font-size:14px">'+fmtD(x.day)+'</button>'}).join('')+'</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'+d.times.map(function(t){return '<button class="opt" style="margin:0;text-align:center" data-t="'+t+'">'+fmtT(t)+'</button>'}).join('')+'</div><p class="small">'+g(T.tz)+'</p>';
+b.querySelectorAll('[data-d]').forEach(function(x){x.onclick=function(){SD=+x.dataset.d;drawSlots()}});
+b.querySelectorAll('[data-t]').forEach(function(x){x.onclick=function(){book(x.dataset.t)}})}
+function book(iso){b.innerHTML='<p>'+g(T.ld)+'</p>';
+google.script.run.withSuccessHandler(function(r){if(r&&r.ok){b.innerHTML='<h2 style="font-size:26px">'+g(T.bd)+'</h2><p>'+g(T.bm)+r.when+(r.with?' ('+r.with+')':'')+'.</p><p>'+g(T.bi)+'</p>'+callBtn()+'<button class="btn line" onclick="document.getElementById(\'dlg\').close()">'+g(T.close)+'</button>'}
+else{google.script.run.withSuccessHandler(function(s){SL=s||[];SD=0;drawSlots(g(T.tk))}).getSlots(WHO)}}).withFailureHandler(function(){b.innerHTML='<p>'+g(T.er)+'</p>'+callBtn()}).bookSlot({iso:iso,name:fv.n,phone:fv.p,email:fv.e,language:LANG,who:WHO})}
+</script>
